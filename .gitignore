@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ambiente virtual
+venv/
+
+# Banco local
+db.sqlite3
+
+# Variáveis sensíveis
+.env
+
+# Credenciais Google Cloud
+*.json
+
+# VSCode
+.vscode/
+
+# arquivos temporários
+*.log
