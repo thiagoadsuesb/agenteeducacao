@@ -2,39 +2,31 @@
 
 ## 📌 Visão Geral
 
-O **Agente Educação** é uma plataforma web educacional projetada para gerenciamento, armazenamento e análise de conteúdos acadêmicos, integrando autenticação moderna, computação em nuvem e práticas de engenharia de software.
+O **Agente Educação** é uma plataforma educacional desenvolvida para gerenciamento, organização e análise de conteúdos acadêmicos, com foco em produtividade, confiabilidade e escalabilidade.
 
-O sistema foi desenvolvido com foco em **escalabilidade, segurança e organização de dados educacionais**, permitindo que usuários armazenem e acessem seus materiais de estudo de forma estruturada e eficiente.
+O projeto nasceu a partir de uma necessidade real durante a graduação em **Análise e Desenvolvimento de Sistemas (ADS)** na UESB, diante de problemas recorrentes no ambiente Moodle institucional, como indisponibilidade de acesso, falhas em submissões e inconsistência no controle de atividades.
 
+Como solução, foi idealizado um sistema independente, com foco em:
+
+* Centralização de materiais acadêmicos
+* Controle de entregas com integridade (hash de arquivos)
+* Alta disponibilidade via cloud
+* Autonomia do estudante em relação a plataformas externas
 
 
 ## 🎯 Objetivos
 
-* Centralizar conteúdos acadêmicos em ambiente seguro
-* Facilitar o upload e organização de materiais educacionais
-* Implementar autenticação robusta via provedores externos (OAuth2)
-* Integrar armazenamento em nuvem com alta disponibilidade
-* Aplicar boas práticas de desenvolvimento e versionamento
+* Garantir organização e persistência de conteúdos acadêmicos
+* Implementar autenticação segura via OAuth2 (Google)
+* Utilizar armazenamento em nuvem com alta disponibilidade
+* Aplicar conceitos reais de **Engenharia de Software e DevOps**
+* Servir como projeto acadêmico e portfólio profissional
 
 
 
 ## 🧠 Arquitetura do Sistema
 
-O projeto segue uma arquitetura baseada em camadas:
-
-* **Apresentação (Frontend)**: Templates HTML (Django Templates)
-* **Aplicação (Backend)**: Django (MVC adaptado)
-* **Persistência**:
-
-  * SQLite (desenvolvimento)
-  * Google Cloud Storage (arquivos)
-* **Autenticação**:
-
-  * OAuth2 via Google (Django Allauth)
-
-
-
-## 🏗️ Modelo Arquitetural (UML Simplificado)
+O sistema segue o padrão arquitetural **MVT (Model-View-Template)** do Django, com evolução planejada para arquitetura em camadas:
 
 ```text
 [Usuário]
@@ -43,11 +35,13 @@ O projeto segue uma arquitetura baseada em camadas:
    ↓
 [Views - Django]
    ↓
+[Camada de Serviços (futuro)]
+   ↓
 [Models]
    ↓
-[Banco de Dados SQLite]
+[Banco de Dados]
 
-[Upload]
+[Upload de Arquivos]
    ↓
 [Google Cloud Storage]
 ```
@@ -55,70 +49,68 @@ O projeto segue uma arquitetura baseada em camadas:
 
 ## ⚙️ Stack Tecnológica
 
-### 🔹 Linguagem e Framework
+### 🔹 Backend
 
 * Python 3.13
 * Django 6.0.4
 
 ### 🔹 Bibliotecas Principais
 
-* django-allauth 65.16.1 (autenticação social)
-* django-storages 1.14.6 (integração com storage)
-* google-cloud-storage 3.10.1 (armazenamento em nuvem)
-* google-auth 2.49.2 (autenticação com Google Cloud)
-* PyJWT 2.12.1 (tokens de autenticação)
+* django-allauth (OAuth2 / login social)
+* django-storages (integração com cloud)
+* google-cloud-storage (armazenamento GCS)
+* google-auth (autenticação GCP)
+* PyJWT (tokens e segurança)
 
-### 🔹 Infraestrutura
+### 🔹 Banco de Dados
 
-* Google Cloud Platform (GCP)
+* SQLite (ambiente de desenvolvimento)
+* Planejado: PostgreSQL / Cloud SQL
+
+
+
+## ☁️ Infraestrutura Cloud
+
+O sistema utiliza serviços da Google Cloud Platform:
+
 * Cloud Storage (bucket privado)
 * IAM (controle de acesso)
+* Service Accounts (autenticação segura)
 
-### 🔹 Ferramentas de Desenvolvimento
+Preparado para deploy em:
 
-* Visual Studio Code
-* Git / GitHub
-* Ambiente virtual (venv)
+* Cloud Run
+* App Engine
 
----
 
-## ☁️ Integração com Cloud
 
-O sistema utiliza o **Google Cloud Storage** como backend de armazenamento de arquivos:
+## 🧠 Integração com IA (Visão Estratégica)
 
-* Bucket privado (sem acesso público)
-* Controle via IAM
-* Autenticação por conta de serviço
-* Upload seguro de arquivos
+Inspirado em ferramentas como o NotebookLM, o projeto prevê evolução para:
 
+
+* Geração de insights baseados em documentos
+* Organização inteligente de materiais
+* Mapas mentais automatizados
 
 
 ## 🔐 Segurança
 
-* Autenticação baseada em OAuth2
-* Credenciais protegidas por variáveis de ambiente
-* Arquivos sensíveis não versionados (.gitignore)
-* Bucket com acesso público desativado
-* Controle de permissões via IAM
+* Autenticação via OAuth2 (Google)
+* Uso de variáveis de ambiente
+* Credenciais fora do versionamento (.gitignore)
+* Bucket sem acesso público
+* Controle de acesso via IAM
 
 
 
-## ⚙️ Configuração do Ambiente
+## ⚙️ Ambiente de Desenvolvimento
 
 ```bash
-# criar ambiente virtual
 python -m venv venv
-
-# ativar ambiente (Windows)
 venv\Scripts\activate
-
-# instalar dependências
 pip install -r requirements.txt
-
-# aplicar migrações
 python manage.py migrate
-
-# executar servidor
 python manage.py runserver
 ```
 
@@ -127,12 +119,11 @@ http://127.0.0.1:8000/
 
 
 
-## 🔑 Configuração do Google Cloud
+## 🔑 Configuração do Cloud
 
 ```bash
-set GOOGLE_APPLICATION_CREDENTIALS=caminho/para/credencial.json
+set GOOGLE_APPLICATION_CREDENTIALS=credentials/gcloud.json
 ```
-
 
 
 ## 🧱 Estrutura do Projeto
@@ -140,51 +131,73 @@ set GOOGLE_APPLICATION_CREDENTIALS=caminho/para/credencial.json
 ```bash
 painel/
 ├── core/
-│   ├── models.py
-│   ├── views.py
-│   └── migrations/
 ├── painel/
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
 ├── templates/
 ├── static/
-├── credentials/ (não versionado)
-├── db.sqlite3 (dev)
+├── credentials/   # ignorado no git
+├── db.sqlite3
 └── manage.py
 ```
 
 
-## 🔄 Práticas de DevOps
+
+## 🔄 Práticas DevOps Aplicadas
 
 * Versionamento com Git (Conventional Commits)
-* Controle de dependências (requirements.txt)
+* Controle de dependências
 * Separação de ambientes (dev/prod)
-* Uso de variáveis de ambiente para segurança
+* Uso de variáveis de ambiente
 * Integração com serviços cloud (GCP)
 
 
+## 🚀 Roadmap DevOps
 
-## 📊 Possibilidades de Expansão
-
-* Deploy em Cloud Run / App Engine
-* Banco de dados gerenciado (Cloud SQL)
-* Interface SPA (React ou Vue)
-* Integração com IA para análise de documentos
-* Dashboard analítico para desempenho acadêmico
+* Containerização com Docker
+* Orquestração com Kubernetes
+* CI/CD com GitHub Actions
+* Infraestrutura como código (Terraform)
+* Monitoramento com Cloud Logging
 
 
-## 🚧 Status do Projeto
 
-Em desenvolvimento contínuo, com foco em evolução para arquitetura escalável e deploy em produção.
+## 🖥️ Infraestrutura e Virtualização
+
+O projeto demonstra conhecimentos em:
+
+* Containers (Docker)
+* Orquestração (Kubernetes)
+* Virtualização (VMware)
+* Ambientes isolados e escaláveis
+
+
+
+## 📊 Diferenciais
+
+* Baseado em problema real acadêmico
+* Integração com cloud real (GCP)
+* Arquitetura escalável
+* Preparado para IA
+* Aplicação prática de DevOps
+
+
+
+## 🚧 Status
+
+Projeto em evolução contínua com foco em:
+
+* Deploy em produção
+* Integração completa com cloud
+* Automação DevOps
+* Interface moderna
+
 
 
 ## 👨‍💻 Autor
 
 Thiago Prates
-Universidade Estadual do Sudoeste da Bahia (UESB)
+UESB - Análise e Desenvolvimento de Sistemas
 
 
 ## 📌 Licença
 
-MIT License
+MIT
